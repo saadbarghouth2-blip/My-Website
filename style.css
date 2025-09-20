@@ -1,0 +1,39 @@
+:root{
+  --bg:#05071a;--panel:linear-gradient(180deg,#071428,#0b2036);
+  --muted:#9aa8bd;--text:#e6eef8;
+  --accent:#e6eef8;--max:1200px;
+  --card-sh:0 12px 28px rgba(2,6,23,0.55);
+}
+body{margin:0;font-family:Inter,Arial;background:var(--bg);color:var(--text)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+.topnav{position:fixed;top:0;left:0;right:0;padding:8px 0;z-index:100;background:transparent}
+.nav-wrap{display:flex;justify-content:space-between;align-items:center}
+.brand{color:var(--accent);font-weight:700}
+.menu a{color:#e6eef8d0;margin-left:14px;text-decoration:none;font-weight:600}
+.menu a:hover{color:var(--accent)}
+.hero{height:90vh;position:relative}
+.hero-img{width:100%;height:100%;object-fit:contain}
+.hero-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(5,7,26,0.2),rgba(5,7,26,0.6))}
+.hero-inner{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);text-align:center}
+.hero-card{background:rgba(5,7,26,0.6);display:inline-block;padding:20px 28px;border-radius:12px}
+.hero-name{font-size:40px;margin:0}
+.accent{color:var(--accent)}
+.hero-title{margin:6px 0 0;color:var(--muted)}
+.section{padding:40px 0}
+.section.tight{padding-top:20px}
+.section-title{text-align:center;color:var(--accent);margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:rgba(255,255,255,0.03);padding:14px;border-radius:12px;box-shadow:var(--card-sh)}
+.timeline{display:flex;flex-direction:column;gap:10px}
+.entry{background:rgba(255,255,255,0.03);padding:10px;border-radius:10px}
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.cert{background:rgba(255,255,255,0.03);padding:12px;border-radius:10px}
+.footer{padding:18px 0;text-align:center;color:var(--muted)}
+/* responsive */
+@media(max-width:760px){
+ .menu{display:none}
+ .hero{height:70vh}
+ .hero-name{font-size:26px}
+ .hero-title{font-size:14px}
+ .card,.cert{font-size:14px}
+}

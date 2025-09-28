@@ -4,17 +4,28 @@
   --card-sh:0 12px 28px rgba(2,6,23,0.55);
 }
 
-body {margin:0;font-family:Inter,Arial;background:var(--bg);color:var(--text)}
+body {
+  margin:0;
+  font-family:Inter,Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+
 .wrap {max-width:var(--max);margin:0 auto;padding:0 20px}
 
-/* NAVBAR */
+/* ===== NAVBAR ===== */
 .topnav {
-  position:fixed;top:0;left:0;right:0;z-index:1000;
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:1000;
   background:transparent;
   padding:12px 0;
   transition:all 0.3s ease;
 }
-.topnav.scrolled {background:rgba(13, 27, 42, 0.95);box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+.topnav.scrolled {
+  background:rgba(13, 27, 42, 0.95);
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
 .nav-wrap {display:flex;justify-content:space-between;align-items:center}
 .brand {color:var(--accent);font-weight:700;font-size:20px}
 .menu {display:flex;gap:18px}
@@ -22,44 +33,80 @@ body {margin:0;font-family:Inter,Arial;background:var(--bg);color:var(--text)}
 .menu a:hover {color:var(--accent)}
 .menu-toggle {display:none;font-size:28px;cursor:pointer;color:#fff}
 
-/* HERO */
+/* ===== HERO ===== */
 .hero {
-  height: 50vh;              
+  height: 50vh; /* smaller hero section for desktop */
   position: relative;
   margin-top: 60px;
 }
 .hero-bg {width:100%;height:100%;overflow:hidden;position:relative;}
 .hero-img {width:100%;height:100%;object-fit:cover;display:block;}
-.hero-overlay {position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(5,7,26,0.3),rgba(5,7,26,0.7))}
-.hero-inner {position:absolute;top:auto;left:0;right:0;transform: none;text-align:center}
-.hero-card {background:rgba(5,7,26,0.65);display:inline-block;padding:20px 28px;border-radius:12px}
-.hero-name {font-size:40px;margin:0}
+.hero-overlay {
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(180deg,rgba(5,7,26,0.2),rgba(5,7,26,0.6));
+}
+.hero-inner {
+  position:absolute;
+  bottom:20px; /* text at the bottom of image */
+  left:0;right:0;
+  text-align:center;
+  transform:none;
+}
+.hero-card {
+  background:rgba(5,7,26,0.4); /* semi-transparent background */
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:10px;
+}
+.hero-name {font-size:32px;margin:0}
+.hero-title {margin:6px 0 0;color:var(--muted);font-size:16px}
 .accent {color:var(--accent)}
-.hero-title {margin:6px 0 0;color:var(--muted)}
 
-/* SECTIONS */
-.section {padding:60px 0}
-.section-title {text-align:center;color:var(--accent);margin-bottom:24px}
-.grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.card {background:rgba(255,255,255,0.03);padding:18px;border-radius:12px;box-shadow:var(--card-sh)}
-.timeline {display:flex;flex-direction:column;gap:14px}
-.entry {background:rgba(255,255,255,0.03);padding:12px;border-radius:10px}
+/* ===== ABOUT ===== */
+#about .card {
+  background:rgba(255,255,255,0.04);
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.4);
+}
+#about .muted {
+  line-height:1.8;
+  font-size:16px;
+  text-align:justify;
+  word-spacing:1px;
+  letter-spacing:0.3px;
+}
+
+/* ===== FOOTER ===== */
 .footer {padding:18px 0;text-align:center;color:var(--muted)}
 
-/* ABOUT */
-#about .card {background:rgba(255,255,255,0.04);border-radius:12px;padding:20px;box-shadow:0 6px 20px rgba(0,0,0,0.4);}
-#about .muted {line-height:1.8;font-size:16px;text-align:justify;word-spacing:1px;letter-spacing:0.3px}
-
-/* RESPONSIVE */
+/* ===== RESPONSIVE ===== */
 @media(max-width:768px){
-  .menu {display:none;flex-direction:column;background:#1f2a44;position:absolute;top:60px;right:20px;padding:15px;border-radius:8px;width:200px;box-shadow:0 6px 20px rgba(0,0,0,0.5);}
-  .menu.active {display:flex;}
+  .menu {
+    display:none;
+    flex-direction:column;
+    background:#1f2a44;
+    position:absolute;
+    top:60px;right:20px;
+    padding:15px;
+    border-radius:8px;
+    width:200px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+  }
+  .menu.active {display:flex}
   .menu a {padding:8px 0;font-size:15px}
   .menu-toggle {display:block}
 
+  /* Smaller hero on mobile */
   .hero {height: 250px;}
-  .hero-name {font-size:26px}
-  .hero-title {font-size:14px}
+  .hero-card {
+    background:transparent; /* no background on mobile */
+    text-shadow:1px 1px 4px rgba(0,0,0,0.7);
+    padding:6px 10px;
+  }
+  .hero-name {font-size:22px}
+  .hero-title {font-size:12px}
   #about .card {padding:15px;margin:0 8px}
   #about .muted {font-size:14px;line-height:1.9;text-align:left}
 }

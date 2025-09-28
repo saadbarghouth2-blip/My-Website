@@ -1,18 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.getElementById("menuToggle");
-  const menu   = document.getElementById("menu");
-  const navbar = document.querySelector(".topnav");
+  const toggle = document.getElementById("menuToggle"); // hamburger button
+  const menu   = document.querySelector(".menu");       // nav links
+  const navbar = document.querySelector(".topnav");     // navbar itself
 
+  // Toggle mobile menu
   if (toggle && menu) {
-    // Toggle menu on hamburger click
     toggle.addEventListener("click", (e) => {
-      e.stopPropagation(); 
+      e.stopPropagation();
       menu.classList.toggle("active");
     });
 
-    // Close menu when a link is clicked
+    // Close menu when clicking a link
     menu.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => menu.classList.remove("active"));
+      link.addEventListener("click", () => {
+        menu.classList.remove("active");
+      });
     });
 
     // Close menu when clicking outside
@@ -24,15 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Close menu with Escape key
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") menu.classList.remove("active");
+      if (e.key === "Escape") {
+        menu.classList.remove("active");
+      }
     });
   }
 
-  // Navbar effect on scroll
+  // Change navbar style on scroll
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 20) {
+    if (window.scrollY > 50) {
       navbar.classList.add("scrolled");
-      menu.classList.remove("active");
     } else {
       navbar.classList.remove("scrolled");
     }

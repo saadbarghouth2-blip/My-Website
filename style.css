@@ -13,12 +13,29 @@ body{margin:0;font-family:Inter,Arial;background:var(--bg);color:var(--text)}
 .menu a{color:#e6eef8d0;text-decoration:none;font-weight:600}
 .menu a:hover{color:var(--accent)}
 
-/* زر القائمة (الهامبرجر) */
 .menu-toggle {
   display:none;
   font-size:26px;
   cursor:pointer;
   color:var(--accent);
+}
+/* General About paragraph styling */
+#about p {
+  line-height: 1.8;
+  font-size: 16px;
+  text-align: justify;
+  word-spacing: 1px;
+  letter-spacing: 0.3px;
+}
+
+/* Mobile optimization */
+@media (max-width: 760px) {
+  #about p {
+    font-size: 14px;          /* smaller font */
+    line-height: 1.9;         /* more spacing */
+    padding: 0 8px;           /* extra padding left/right */
+    text-align: left;         /* align left for easier reading */
+  }
 }
 
 .hero{height:75vh;position:relative}

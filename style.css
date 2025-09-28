@@ -25,7 +25,7 @@ body {
   z-index:1000;
   background:transparent;
   padding:12px 0;
-  transition:all 0.3s ease;
+  transition:background 0.4s ease, box-shadow 0.4s ease;
 }
 .topnav.scrolled {
   background:rgba(13, 27, 42, 0.95);
@@ -40,7 +40,7 @@ body {
 
 /* ===== HERO ===== */
 .hero {
-  height:50vh; /* smaller height for desktop */
+  height:50vh; /* smaller for desktop */
   position:relative;
   margin-top:60px;
 }
@@ -53,25 +53,29 @@ body {
 }
 .hero-inner {
   position:absolute;
-  bottom:20px; /* move text to bottom */
+  bottom:20px;
   left:0;right:0;
   text-align:center;
-  transform:none;
 }
 .hero-card {
   background:rgba(5,7,26,0.4);
   display:inline-block;
   padding:12px 18px;
   border-radius:10px;
+  animation:fadeUp 1s ease-in-out forwards;
 }
 .hero-name {font-size:32px;margin:0}
 .hero-title {margin:6px 0 0;color:var(--muted);font-size:16px}
 .accent {color:var(--accent)}
 
-/* ===== SECTIONS ===== */
-.section {
-  padding:60px 0;
+/* Hero Text Animation */
+@keyframes fadeUp {
+  from {opacity:0;transform:translateY(20px);}
+  to {opacity:1;transform:translateY(0);}
 }
+
+/* ===== SECTIONS ===== */
+.section {padding:60px 0}
 .section-title {
   text-align:center;
   color:var(--accent);
@@ -172,7 +176,7 @@ body {
   .section {padding:40px 0;}
   .section-title {font-size:22px;margin-bottom:20px;}
 
-  /* Navbar on mobile */
+  /* Navbar mobile */
   .menu {
     display:none;
     flex-direction:column;
@@ -188,7 +192,7 @@ body {
   .menu a {padding:8px 0;font-size:15px}
   .menu-toggle {display:block}
 
-  /* Hero smaller on mobile */
+  /* Hero mobile */
   .hero {height:250px;}
   .hero-card {
     background:transparent;
@@ -198,7 +202,7 @@ body {
   .hero-name {font-size:22px}
   .hero-title {font-size:12px}
 
-  /* About */
+  /* About mobile */
   #about .card {padding:18px;margin:0 10px}
   #about .muted {
     font-size:14px;
@@ -206,11 +210,10 @@ body {
     text-align:left;
   }
 
-  /* Skills / Experience cards stack full width */
+  /* Skills / Experience */
   .grid {grid-template-columns:1fr;}
   .card {font-size:14px;padding:15px}
 
-  /* Timeline smaller text */
   .timeline .entry {padding:12px}
   .entry .what {font-size:14px}
   .entry .muted {font-size:13px}

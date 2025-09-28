@@ -9,9 +9,14 @@ body {
   font-family:Inter,Arial;
   background:var(--bg);
   color:var(--text);
+  line-height:1.6;
 }
 
-.wrap {max-width:var(--max);margin:0 auto;padding:0 20px}
+.wrap {
+  max-width:var(--max);
+  margin:0 auto;
+  padding:0 20px;
+}
 
 /* ===== NAVBAR ===== */
 .topnav {
@@ -35,9 +40,9 @@ body {
 
 /* ===== HERO ===== */
 .hero {
-  height: 50vh; /* smaller hero section for desktop */
-  position: relative;
-  margin-top: 60px;
+  height:50vh; /* smaller height for desktop */
+  position:relative;
+  margin-top:60px;
 }
 .hero-bg {width:100%;height:100%;overflow:hidden;position:relative;}
 .hero-img {width:100%;height:100%;object-fit:cover;display:block;}
@@ -48,13 +53,13 @@ body {
 }
 .hero-inner {
   position:absolute;
-  bottom:20px; /* text at the bottom of image */
+  bottom:20px; /* move text to bottom */
   left:0;right:0;
   text-align:center;
   transform:none;
 }
 .hero-card {
-  background:rgba(5,7,26,0.4); /* semi-transparent background */
+  background:rgba(5,7,26,0.4);
   display:inline-block;
   padding:12px 18px;
   border-radius:10px;
@@ -63,12 +68,26 @@ body {
 .hero-title {margin:6px 0 0;color:var(--muted);font-size:16px}
 .accent {color:var(--accent)}
 
-/* ===== ABOUT ===== */
+/* ===== SECTIONS ===== */
+.section {
+  padding:60px 0;
+}
+.section-title {
+  text-align:center;
+  color:var(--accent);
+  margin-bottom:24px;
+  font-size:26px;
+  font-weight:700;
+}
+
+/* ABOUT */
 #about .card {
   background:rgba(255,255,255,0.04);
   border-radius:12px;
-  padding:20px;
+  padding:25px;
   box-shadow:0 6px 20px rgba(0,0,0,0.4);
+  max-width:800px;
+  margin:0 auto;
 }
 #about .muted {
   line-height:1.8;
@@ -78,11 +97,82 @@ body {
   letter-spacing:0.3px;
 }
 
-/* ===== FOOTER ===== */
-.footer {padding:18px 0;text-align:center;color:var(--muted)}
+/* SKILLS & CARDS */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+}
+.card {
+  background:rgba(255,255,255,0.03);
+  padding:18px;
+  border-radius:12px;
+  box-shadow:var(--card-sh);
+}
+.card h4 {
+  margin-top:0;
+  margin-bottom:8px;
+  color:var(--accent);
+  font-size:18px;
+}
+.card p {
+  font-size:15px;
+  line-height:1.6;
+  color:var(--muted);
+}
+
+/* TIMELINE (EXPERIENCE) */
+.timeline {
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.entry {
+  background:rgba(255,255,255,0.03);
+  padding:14px;
+  border-radius:10px;
+}
+.entry .when {
+  font-size:14px;
+  color:var(--accent);
+  margin-bottom:6px;
+}
+.entry .what {
+  font-size:15px;
+  line-height:1.6;
+}
+.entry .muted {
+  font-size:14px;
+  color:var(--muted);
+}
+
+/* CONTACT */
+#contact {
+  text-align:center;
+}
+#contact p {
+  font-size:15px;
+  margin:6px 0;
+}
+#contact a {
+  color:var(--accent);
+  text-decoration:none;
+}
+
+/* FOOTER */
+.footer {
+  padding:18px 0;
+  text-align:center;
+  color:var(--muted);
+  font-size:14px;
+}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:768px){
+  .section {padding:40px 0;}
+  .section-title {font-size:22px;margin-bottom:20px;}
+
+  /* Navbar on mobile */
   .menu {
     display:none;
     flex-direction:column;
@@ -98,15 +188,30 @@ body {
   .menu a {padding:8px 0;font-size:15px}
   .menu-toggle {display:block}
 
-  /* Smaller hero on mobile */
-  .hero {height: 250px;}
+  /* Hero smaller on mobile */
+  .hero {height:250px;}
   .hero-card {
-    background:transparent; /* no background on mobile */
+    background:transparent;
     text-shadow:1px 1px 4px rgba(0,0,0,0.7);
     padding:6px 10px;
   }
   .hero-name {font-size:22px}
   .hero-title {font-size:12px}
-  #about .card {padding:15px;margin:0 8px}
-  #about .muted {font-size:14px;line-height:1.9;text-align:left}
+
+  /* About */
+  #about .card {padding:18px;margin:0 10px}
+  #about .muted {
+    font-size:14px;
+    line-height:1.8;
+    text-align:left;
+  }
+
+  /* Skills / Experience cards stack full width */
+  .grid {grid-template-columns:1fr;}
+  .card {font-size:14px;padding:15px}
+
+  /* Timeline smaller text */
+  .timeline .entry {padding:12px}
+  .entry .what {font-size:14px}
+  .entry .muted {font-size:13px}
 }

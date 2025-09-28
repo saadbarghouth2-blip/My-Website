@@ -2,6 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("menuToggle");
   const menu   = document.querySelector(".menu");
+  const navbar = document.querySelector(".topnav");
 
   if (toggle && menu) {
     // Toggle menu open/close when hamburger is clicked
@@ -24,12 +25,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Optional: Close menu with Escape key
+    // Close menu with Escape key
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         menu.classList.remove("active");
       }
     });
   }
+
+  // Add shadow or background when scrolling
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 20) {
+      navbar.classList.add("scrolled");
+      menu.classList.remove("active"); // auto-close menu on scroll
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  });
 });
 </script>

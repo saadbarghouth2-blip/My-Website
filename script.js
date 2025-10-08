@@ -1,24 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("menuToggle");
-  const menu   = document.querySelector(".menu");
+  const menu = document.querySelector(".menu");
   const navbar = document.querySelector(".topnav");
   const logo = document.getElementById("logo");
   const sections = document.querySelectorAll('section, header');
-  let activeModal = null;
-
-  // =============================
-  // Page fade-in
-  // =============================
-  document.body.style.opacity = "0";
-  document.body.style.transition = "opacity 0.8s ease";
-  window.addEventListener("load", () => setTimeout(() => document.body.style.opacity = "1", 200));
+  let activeSection = null;
 
   // =============================
   // Mobile menu toggle
   // =============================
   if (toggle && menu) {
-    toggle.addEventListener("click", (e) => { e.stopPropagation(); menu.classList.toggle("active"); });
-    menu.querySelectorAll("a").forEach(link => link.addEventListener("click", () => menu.classList.remove("active")));
+    toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menu.classList.toggle("active");
+    });
+
+    menu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => menu.classList.remove("active"));
+    });
   }
 
   // =============================
@@ -31,47 +30,66 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =============================
-  // Fade functions
+  // Show only one section at a time
   // =============================
-  function fadeIn(element) {
-    element.style.display = 'block';
-    element.style.position = 'fixed';
-    element.style.top = '50%';
-    element.style.left = '50%';
-    element.style.transform = 'translate(-50%, -50%)';
-    element.style.zIndex = '999';
-    element.style.background = 'rgba(5,7,26,0.95)';
-    element.style.color = 'var(--text)';
-    element.style.padding = '20px';
-    element.style.borderRadius = '10px';
-    element.style.maxHeight = '90vh';
-    element.style.overflowY = 'auto';
-    element.style.width = '90%';
-    element.style.backdropFilter = 'blur(10px)';
-    activeModal = element;
+  function showSection(section) {
+    sections.forEach(sec => {
+      if (sec === section) {
+        sec.style.display = "block";
+        sec.style.position = "fixed";
+        sec.style.top = "50%";
+        sec.style.left = "50%";
+        sec.style.transform = "translate(-50%, -50%)";
+        sec.style.zIndex = "999";
+        sec.style.background = "rgba(5,7,26,0.95)";
+        sec.style.color = "var(--text)";
+        sec.style.padding = "20px";
+        sec.style.borderRadius = "10px";
+        sec.style.maxHeight = "90vh";
+        sec.style.overflowY = "auto";
+        sec.style.width = "90%";
+        sec.style.backdropFilter = "blur(10px)";
+        activeSection = section;
+      } else {
+        sec.style.display = "none";
+        sec.style.position = "";
+        sec.style.top = "";
+        sec.style.left = "";
+        sec.style.transform = "";
+        sec.style.zIndex = "";
+        sec.style.background = "";
+        sec.style.color = "";
+        sec.style.padding = "";
+        sec.style.borderRadius = "";
+        sec.style.maxHeight = "";
+        sec.style.overflowY = "";
+        sec.style.width = "";
+        sec.style.backdropFilter = "";
+      }
+    });
   }
 
-  function hideModal(element) {
-    if(!element) return;
-    element.style.display = 'block'; // keep visible for default layout
-    element.style.position = '';
-    element.style.top = '';
-    element.style.left = '';
-    element.style.transform = '';
-    element.style.zIndex = '';
-    element.style.background = '';
-    element.style.color = '';
-    element.style.padding = '';
-    element.style.borderRadius = '';
-    element.style.maxHeight = '';
-    element.style.overflowY = '';
-    element.style.width = '';
-    element.style.backdropFilter = '';
-    if(activeModal === element) activeModal = null;
-  }
-
+  // =============================
+  // Show all sections (default)
+  // =============================
   function showAllSections() {
-    sections.forEach(section => hideModal(section));
+    sections.forEach(sec => {
+      sec.style.display = "block";
+      sec.style.position = "";
+      sec.style.top = "";
+      sec.style.left = "";
+      sec.style.transform = "";
+      sec.style.zIndex = "";
+      sec.style.background = "";
+      sec.style.color = "";
+      sec.style.padding = "";
+      sec.style.borderRadius = "";
+      sec.style.maxHeight = "";
+      sec.style.overflowY = "";
+      sec.style.width = "";
+      sec.style.backdropFilter = "";
+    });
+    activeSection = null;
   }
 
   showAllSections(); // initial load
@@ -86,29 +104,25 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!targetId || !targetId.startsWith('#')) return;
       e.preventDefault();
 
-      if(['#all','#home','#default'].includes(targetId)) {
+      if (['#all', '#home', '#default'].includes(targetId)) {
         showAllSections();
         window.scrollTo({top:0, behavior:'smooth'});
         return;
       }
 
       const targetSection = document.querySelector(targetId);
-      if(!targetSection) return;
+      if (!targetSection) return;
 
-      // Hide other modals
-      sections.forEach(sec => { if(sec !== targetSection) hideModal(sec); });
-
-      // Show target section
-      fadeIn(targetSection);
+      showSection(targetSection);
       window.scrollTo({top:0, behavior:'smooth'});
     });
   });
 
   // =============================
-  // Logo click -> show all
+  // Logo click -> show all sections
   // =============================
-  if(logo){
-    logo.addEventListener('click', ()=>{
+  if (logo) {
+    logo.addEventListener('click', () => {
       showAllSections();
       window.scrollTo({top:0, behavior:'smooth'});
     });
@@ -117,11 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // =============================
   // Initial hash handling
   // =============================
-  (function(){
-    const hash = window.location.hash;
-    if(hash && !['#all','#home','#default'].includes(hash)){
-      const target=document.querySelector(hash);
-      if(target) fadeIn(target);
-    }
-  })();
+  const hash = window.location.hash;
+  if (hash && !['#all','#home','#default'].includes(hash)) {
+    const targetSection = document.querySelector(hash);
+    if (targetSection) showSection(targetSection);
+  }
 });

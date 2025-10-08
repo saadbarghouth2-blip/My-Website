@@ -1,21 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.getElementById("menuToggle"); // hamburger button
-  const menu   = document.querySelector(".menu");       // navigation links container
-  const navbar = document.querySelector(".topnav");     // navbar element
+  const toggle = document.getElementById("menuToggle");
+  const menu   = document.querySelector(".menu");
+  const navbar = document.querySelector(".topnav");
+  const sections = document.querySelectorAll('section, header');
+
+  let activeModal = null; // track currently open modal
 
   // =============================
-  // PAGE LOADING FADE-IN EFFECT
+  // Page loading fade-in
   // =============================
   document.body.style.opacity = "0";
   document.body.style.transition = "opacity 0.8s ease";
   window.addEventListener("load", () => {
-    setTimeout(() => {
-      document.body.style.opacity = "1";
-    }, 200);
+    setTimeout(() => document.body.style.opacity = "1", 200);
   });
 
   // =============================
-  // Mobile menu & navbar behavior
+  // Mobile menu behavior
   // =============================
   if (toggle && menu) {
     toggle.addEventListener("click", (e) => {
@@ -24,15 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     menu.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => {
-        menu.classList.remove("active");
-      });
+      link.addEventListener("click", () => menu.classList.remove("active"));
     });
 
     document.addEventListener("click", (e) => {
-      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-        menu.classList.remove("active");
-      }
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) menu.classList.remove("active");
     });
 
     document.addEventListener("keydown", (e) => {
@@ -45,40 +42,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // =============================
   window.addEventListener("scroll", () => {
     if (!navbar) return;
-    if (window.scrollY > 50) {
-      navbar.classList.add("scrolled");
-    } else {
-      navbar.classList.remove("scrolled");
-    }
+    if (window.scrollY > 50) navbar.classList.add("scrolled");
+    else navbar.classList.remove("scrolled");
   });
 
   // =============================
-  // Section logic with fade + centering
+  // Fade animations
   // =============================
-  const navLinks = document.querySelectorAll('.menu a');
-  const sections = document.querySelectorAll('section, header');
-
-  // Hide all sections instantly
-  function hideAllSections() {
-    sections.forEach(section => {
-      section.style.display = 'none';
-      section.style.opacity = '0';
-    });
-  }
-
-  // Show all sections (default homepage)
-  function showAllSections() {
-    sections.forEach(section => {
-      section.style.display = 'block';
-      fadeIn(section);
-    });
-  }
-
-  // Fade-in animation
   function fadeIn(element) {
     let opacity = 0;
     element.style.display = 'block';
     element.style.opacity = '0';
+    element.style.position = 'fixed';
+    element.style.top = '50%';
+    element.style.left = '50%';
+    element.style.transform = 'translate(-50%, -50%)';
+    element.style.zIndex = '999';
+    element.style.background = 'rgba(0,0,0,0.9)';
+    element.style.padding = '20px';
+    element.style.borderRadius = '10px';
+    element.style.maxHeight = '90vh';
+    element.style.overflowY = 'auto';
+    element.style.width = '90%';
+    activeModal = element; // set as current modal
     const timer = setInterval(() => {
       opacity += 0.05;
       element.style.opacity = opacity;
@@ -86,8 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 25);
   }
 
-  // Fade-out animation
   function fadeOut(element, callback) {
+    if (!element) { if(callback) callback(); return; }
     let opacity = 1;
     const timer = setInterval(() => {
       opacity -= 0.05;
@@ -95,30 +81,49 @@ document.addEventListener("DOMContentLoaded", () => {
       if (opacity <= 0) {
         clearInterval(timer);
         element.style.display = 'none';
+        element.style.position = '';
+        element.style.top = '';
+        element.style.left = '';
+        element.style.transform = '';
+        element.style.zIndex = '';
+        element.style.background = '';
+        element.style.padding = '';
+        element.style.borderRadius = '';
+        element.style.maxHeight = '';
+        element.style.overflowY = '';
+        element.style.width = '';
+        if (activeModal === element) activeModal = null;
         if (callback) callback();
       }
     }, 25);
   }
 
-  // Center section vertically in the viewport
-  function centerSection(section) {
-    const windowHeight = window.innerHeight;
-    const sectionHeight = section.offsetHeight;
-    const offset = Math.max((windowHeight - sectionHeight) / 2, 60); // min 60px from top
-    window.scrollTo({
-      top: section.offsetTop - offset,
-      behavior: 'smooth'
+  // Show all sections (default)
+  function showAllSections() {
+    sections.forEach(section => {
+      section.style.display = 'block';
+      section.style.opacity = '1';
+      section.style.position = '';
+      section.style.top = '';
+      section.style.left = '';
+      section.style.transform = '';
+      section.style.zIndex = '';
+      section.style.background = '';
+      section.style.padding = '';
+      section.style.borderRadius = '';
+      section.style.maxHeight = '';
+      section.style.overflowY = '';
+      section.style.width = '';
     });
   }
 
-  // Default: show all sections (home view)
-  showAllSections();
-
-  // Handle navbar link clicks
+  // =============================
+  // Navbar links handling
+  // =============================
+  const navLinks = document.querySelectorAll('.menu a');
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const targetId = link.getAttribute('href');
-
       if (!targetId || !targetId.startsWith('#')) return;
       e.preventDefault();
 
@@ -134,10 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
               const targetSection = document.querySelector(targetId);
-              if (targetSection) {
-                fadeIn(targetSection);
-                setTimeout(() => centerSection(targetSection), 400); // center after fade-in
-              }
+              if (targetSection) fadeIn(targetSection);
             }
           }
         });
@@ -148,17 +150,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =============================
-  // Handle direct links with hash
+  // Close modal on click outside or ESC
+  // =============================
+  document.addEventListener('click', (e) => {
+    if (activeModal && !activeModal.contains(e.target)) {
+      fadeOut(activeModal);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape" && activeModal) {
+      fadeOut(activeModal);
+    }
+  });
+
+  // =============================
+  // Handle direct hash links
   // =============================
   (function handleInitialHash() {
     const hash = window.location.hash;
     if (hash && !['#all', '#home', '#default'].includes(hash)) {
       const target = document.querySelector(hash);
-      if (target) {
-        hideAllSections();
-        fadeIn(target);
-        setTimeout(() => centerSection(target), 400);
-      }
+      if (target) fadeIn(target);
     }
   })();
 });

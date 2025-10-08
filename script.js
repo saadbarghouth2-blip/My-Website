@@ -4,20 +4,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const navbar = document.querySelector(".topnav");
   const logo = document.getElementById("logo");
   const sections = document.querySelectorAll('section, header');
-  let activeSection = null;
+
+  // =============================
+  // Page fade-in
+  // =============================
+  document.body.style.opacity = "0";
+  document.body.style.transition = "opacity 0.8s ease";
+  window.addEventListener("load", () => setTimeout(() => document.body.style.opacity = "1", 200));
 
   // =============================
   // Mobile menu toggle
   // =============================
   if (toggle && menu) {
-    toggle.addEventListener("click", (e) => {
-      e.stopPropagation();
-      menu.classList.toggle("active");
+    toggle.addEventListener("click", (e) => { 
+      e.stopPropagation(); 
+      menu.classList.toggle("active"); 
     });
-
-    menu.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => menu.classList.remove("active"));
-    });
+    menu.querySelectorAll("a").forEach(link => link.addEventListener("click", () => menu.classList.remove("active")));
   }
 
   // =============================
@@ -30,43 +33,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =============================
-  // Show only one section at a time
+  // Fade functions
   // =============================
-  function showSection(section) {
-    sections.forEach(sec => {
-      if (sec === section) {
-        sec.style.display = "block";
-        sec.style.position = "fixed";
-        sec.style.top = "50%";
-        sec.style.left = "50%";
-        sec.style.transform = "translate(-50%, -50%)";
-        sec.style.zIndex = "999";
-        sec.style.background = "rgba(5,7,26,0.95)";
-        sec.style.color = "var(--text)";
-        sec.style.padding = "20px";
-        sec.style.borderRadius = "10px";
-        sec.style.maxHeight = "90vh";
-        sec.style.overflowY = "auto";
-        sec.style.width = "90%";
-        sec.style.backdropFilter = "blur(10px)";
-        activeSection = section;
-      } else {
-        sec.style.display = "none";
-        sec.style.position = "";
-        sec.style.top = "";
-        sec.style.left = "";
-        sec.style.transform = "";
-        sec.style.zIndex = "";
-        sec.style.background = "";
-        sec.style.color = "";
-        sec.style.padding = "";
-        sec.style.borderRadius = "";
-        sec.style.maxHeight = "";
-        sec.style.overflowY = "";
-        sec.style.width = "";
-        sec.style.backdropFilter = "";
-      }
-    });
+  function fadeIn(section) {
+    section.style.display = 'flex';
+    section.style.flexDirection = 'column';
+    section.style.justifyContent = 'center';
+    section.style.alignItems = 'center';
+    section.style.minHeight = '100vh';
+    section.style.opacity = '0';
+    section.style.transition = 'opacity 0.5s';
+    section.style.zIndex = '999';
+    section.style.background = 'rgba(5,7,26,0.95)';
+    section.style.color = 'var(--text)';
+    setTimeout(() => section.style.opacity = '1', 50);
+  }
+
+  function fadeOut(section) {
+    section.style.opacity = '0';
+    setTimeout(() => section.style.display = 'none', 500);
   }
 
   // =============================
@@ -74,28 +59,24 @@ document.addEventListener("DOMContentLoaded", () => {
   // =============================
   function showAllSections() {
     sections.forEach(sec => {
-      sec.style.display = "block";
-      sec.style.position = "";
-      sec.style.top = "";
-      sec.style.left = "";
-      sec.style.transform = "";
-      sec.style.zIndex = "";
-      sec.style.background = "";
-      sec.style.color = "";
-      sec.style.padding = "";
-      sec.style.borderRadius = "";
-      sec.style.maxHeight = "";
-      sec.style.overflowY = "";
-      sec.style.width = "";
-      sec.style.backdropFilter = "";
+      sec.style.display = '';
+      sec.style.flexDirection = '';
+      sec.style.justifyContent = '';
+      sec.style.alignItems = '';
+      sec.style.minHeight = '';
+      sec.style.opacity = '';
+      sec.style.transition = '';
+      sec.style.zIndex = '';
+      sec.style.background = '';
+      sec.style.color = '';
     });
-    activeSection = null;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   showAllSections(); // initial load
 
   // =============================
-  // Navbar links
+  // Navbar links click
   // =============================
   const navLinks = document.querySelectorAll('.menu a');
   navLinks.forEach(link => {
@@ -104,17 +85,20 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!targetId || !targetId.startsWith('#')) return;
       e.preventDefault();
 
-      if (['#all', '#home', '#default'].includes(targetId)) {
+      if(['#all','#home','#default'].includes(targetId)) {
         showAllSections();
-        window.scrollTo({top:0, behavior:'smooth'});
         return;
       }
 
       const targetSection = document.querySelector(targetId);
       if (!targetSection) return;
 
-      showSection(targetSection);
-      window.scrollTo({top:0, behavior:'smooth'});
+      // Hide all other sections
+      sections.forEach(sec => { if(sec !== targetSection) fadeOut(sec); });
+
+      // Show target section
+      fadeIn(targetSection);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 
@@ -122,10 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Logo click -> show all sections
   // =============================
   if (logo) {
-    logo.addEventListener('click', () => {
-      showAllSections();
-      window.scrollTo({top:0, behavior:'smooth'});
-    });
+    logo.addEventListener('click', showAllSections);
   }
 
   // =============================
@@ -133,7 +114,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // =============================
   const hash = window.location.hash;
   if (hash && !['#all','#home','#default'].includes(hash)) {
-    const targetSection = document.querySelector(hash);
-    if (targetSection) showSection(targetSection);
+    const target = document.querySelector(hash);
+    if (target) {
+      // hide all other sections
+      sections.forEach(sec => { if(sec !== target) fadeOut(sec); });
+      fadeIn(target);
+    }
   }
 });

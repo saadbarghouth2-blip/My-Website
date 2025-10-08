@@ -4,6 +4,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const navbar = document.querySelector(".topnav");     // navbar element
 
   // =============================
+  // PAGE LOADING FADE-IN EFFECT
+  // =============================
+  document.body.style.opacity = "0";
+  document.body.style.transition = "opacity 0.8s ease";
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.body.style.opacity = "1";
+    }, 200); // small delay for smoother appearance
+  });
+
+  // =============================
   // Mobile menu & navbar behavior
   // =============================
   if (toggle && menu) {
@@ -35,7 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Change navbar appearance when scrolling
+  // =============================
+  // Navbar scroll appearance
+  // =============================
   window.addEventListener("scroll", () => {
     if (!navbar) return;
     if (window.scrollY > 50) {
@@ -46,29 +59,56 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =============================
-  // Section display logic
+  // Section display logic with fade-out + fade-in
   // =============================
   const navLinks = document.querySelectorAll('.menu a');
   const sections = document.querySelectorAll('section, header');
 
-  // Hide all sections
+  // Hide all sections instantly
   function hideAllSections() {
     sections.forEach(section => {
       section.style.display = 'none';
+      section.style.opacity = '0';
     });
   }
 
-  // Show all sections
+  // Show all sections (default view)
   function showAllSections() {
     sections.forEach(section => {
       section.style.display = 'block';
+      fadeIn(section);
     });
   }
 
-  // When the page loads, show all sections by default
+  // Fade-in animation
+  function fadeIn(element) {
+    let opacity = 0;
+    element.style.display = 'block';
+    const timer = setInterval(() => {
+      opacity += 0.05;
+      element.style.opacity = opacity;
+      if (opacity >= 1) clearInterval(timer);
+    }, 25);
+  }
+
+  // Fade-out animation with callback
+  function fadeOut(element, callback) {
+    let opacity = 1;
+    const timer = setInterval(() => {
+      opacity -= 0.05;
+      element.style.opacity = opacity;
+      if (opacity <= 0) {
+        clearInterval(timer);
+        element.style.display = 'none';
+        if (callback) callback();
+      }
+    }, 25);
+  }
+
+  // Default: show all sections when page loads
   showAllSections();
 
-  // Handle navigation link clicks
+  // Handle navbar link clicks
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const targetId = link.getAttribute('href');
@@ -77,20 +117,30 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!targetId || !targetId.startsWith('#')) return;
 
       e.preventDefault();
-      hideAllSections();
 
-      // If link is for showing all sections (like #home or #all)
-      if (targetId === '#all' || targetId === '#home' || targetId === '#default') {
-        showAllSections();
-      } else {
-        const targetSection = document.querySelector(targetId);
-        if (targetSection) targetSection.style.display = 'block';
-      }
+      // Fade out visible sections first
+      const visibleSections = Array.from(sections).filter(s => s.style.display !== 'none');
+      let count = 0;
 
-      // Close mobile menu after selection
+      visibleSections.forEach(section => {
+        fadeOut(section, () => {
+          count++;
+          // When all visible sections are hidden
+          if (count === visibleSections.length) {
+            if (['#all', '#home', '#default'].includes(targetId)) {
+              showAllSections();
+            } else {
+              const targetSection = document.querySelector(targetId);
+              if (targetSection) fadeIn(targetSection);
+            }
+          }
+        });
+      });
+
+      // Close mobile menu after click
       if (menu) menu.classList.remove('active');
 
-      // Smooth scroll to the top
+      // Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
@@ -100,11 +150,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // =============================
   (function handleInitialHash() {
     const hash = window.location.hash;
-    if (hash && hash !== '#all' && hash !== '#home' && hash !== '#default') {
+    if (hash && !['#all', '#home', '#default'].includes(hash)) {
       const target = document.querySelector(hash);
       if (target) {
         hideAllSections();
-        target.style.display = 'block';
+        fadeIn(target);
       }
     }
   })();

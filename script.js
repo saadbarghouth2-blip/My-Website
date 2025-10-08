@@ -11,43 +11,37 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("load", () => {
     setTimeout(() => {
       document.body.style.opacity = "1";
-    }, 200); // small delay for smoother appearance
+    }, 200);
   });
 
   // =============================
   // Mobile menu & navbar behavior
   // =============================
   if (toggle && menu) {
-    // Toggle mobile menu open/close
     toggle.addEventListener("click", (e) => {
       e.stopPropagation();
       menu.classList.toggle("active");
     });
 
-    // Close mobile menu when a link inside it is clicked
     menu.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => {
         menu.classList.remove("active");
       });
     });
 
-    // Close mobile menu when clicking outside
     document.addEventListener("click", (e) => {
       if (!menu.contains(e.target) && !toggle.contains(e.target)) {
         menu.classList.remove("active");
       }
     });
 
-    // Close menu when pressing ESC key
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        menu.classList.remove("active");
-      }
+      if (e.key === "Escape") menu.classList.remove("active");
     });
   }
 
   // =============================
-  // Navbar scroll appearance
+  // Navbar scroll effect
   // =============================
   window.addEventListener("scroll", () => {
     if (!navbar) return;
@@ -59,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =============================
-  // Section display logic with fade-out + fade-in
+  // Section logic with fade + centering
   // =============================
   const navLinks = document.querySelectorAll('.menu a');
   const sections = document.querySelectorAll('section, header');
@@ -72,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Show all sections (default view)
+  // Show all sections (default homepage)
   function showAllSections() {
     sections.forEach(section => {
       section.style.display = 'block';
@@ -84,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function fadeIn(element) {
     let opacity = 0;
     element.style.display = 'block';
+    element.style.opacity = '0';
     const timer = setInterval(() => {
       opacity += 0.05;
       element.style.opacity = opacity;
@@ -91,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 25);
   }
 
-  // Fade-out animation with callback
+  // Fade-out animation
   function fadeOut(element, callback) {
     let opacity = 1;
     const timer = setInterval(() => {
@@ -105,7 +100,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 25);
   }
 
-  // Default: show all sections when page loads
+  // Center section vertically in the viewport
+  function centerSection(section) {
+    const windowHeight = window.innerHeight;
+    const sectionHeight = section.offsetHeight;
+    const offset = Math.max((windowHeight - sectionHeight) / 2, 60); // min 60px from top
+    window.scrollTo({
+      top: section.offsetTop - offset,
+      behavior: 'smooth'
+    });
+  }
+
+  // Default: show all sections (home view)
   showAllSections();
 
   // Handle navbar link clicks
@@ -113,35 +119,31 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener('click', (e) => {
       const targetId = link.getAttribute('href');
 
-      // Skip external links
       if (!targetId || !targetId.startsWith('#')) return;
-
       e.preventDefault();
 
-      // Fade out visible sections first
       const visibleSections = Array.from(sections).filter(s => s.style.display !== 'none');
       let count = 0;
 
       visibleSections.forEach(section => {
         fadeOut(section, () => {
           count++;
-          // When all visible sections are hidden
           if (count === visibleSections.length) {
             if (['#all', '#home', '#default'].includes(targetId)) {
               showAllSections();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
               const targetSection = document.querySelector(targetId);
-              if (targetSection) fadeIn(targetSection);
+              if (targetSection) {
+                fadeIn(targetSection);
+                setTimeout(() => centerSection(targetSection), 400); // center after fade-in
+              }
             }
           }
         });
       });
 
-      // Close mobile menu after click
       if (menu) menu.classList.remove('active');
-
-      // Scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 
@@ -155,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (target) {
         hideAllSections();
         fadeIn(target);
+        setTimeout(() => centerSection(target), 400);
       }
     }
   })();

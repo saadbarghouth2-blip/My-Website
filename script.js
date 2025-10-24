@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const navbar = document.querySelector(".topnav");
   const logo = document.getElementById("logo");
   const sections = document.querySelectorAll('section, header');
+  const animatedCards = document.querySelectorAll('.card.animate');
 
   // =============================
   // Page fade-in
@@ -121,4 +122,34 @@ document.addEventListener("DOMContentLoaded", () => {
       fadeIn(target);
     }
   }
+
+  // =============================
+  // Animate cards on scroll
+  // =============================
+  const observerOptions = { threshold: 0.1 };
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('show');
+        obs.unobserve(entry.target); // animate once
+      }
+    });
+  }, observerOptions);
+
+  animatedCards.forEach(card => observer.observe(card));
+
+  // =============================
+  // Smooth scroll for any anchor links
+  // =============================
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e){
+      const target = document.querySelector(this.getAttribute('href'));
+      if(target){
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if(menu.classList.contains('active')) menu.classList.remove('active');
+      }
+    });
+  });
+
 });

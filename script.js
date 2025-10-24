@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =============================
-  // Fade functions
+  // Fade functions for sections
   // =============================
   function fadeIn(section) {
     section.style.display = 'flex';
@@ -123,23 +123,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =============================
-  // Animate cards on scroll (Intersection Observer)
+  // Animate cards on scroll with staggered delay
   // =============================
   if(animatedCards.length){
     const observerOptions = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if(entry.isIntersecting){
-          entry.target.classList.add('show');
-          obs.unobserve(entry.target);
+          const cards = Array.from(animatedCards);
+          cards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.add('show');
+            }, index * 150); // كل كارت يظهر بعد 150ms من اللي قبله
+          });
+          obs.disconnect(); // animate once
         }
       });
     }, observerOptions);
+
     animatedCards.forEach(card => observer.observe(card));
   }
 
   // =============================
-  // Smooth scroll for anchor links
+  // Smooth scroll for any anchor links
   // =============================
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e){
@@ -151,4 +157,5 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
 });

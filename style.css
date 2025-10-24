@@ -1,3 +1,6 @@
+تمام! 😎 أنا هظبط الـCSS الخاص بالكروت بالكامل بحيث تكون **متناسقة، مرتبة، responsive**، ودمجت تحسينات الـhover والـanimation لكل الكروت بما فيها Skills/Programming/Experience. ده الكود النهائي بعد التحسين:
+
+```css
 :root {
   --bg:#05071a;
   --muted:#9aa8bd;
@@ -150,7 +153,7 @@ body {
   font-weight:700;
 }
 
-/* ABOUT CARD */
+/* ===== ABOUT CARD ===== */
 #about .card {
   background:rgba(255,255,255,0.04);
   border-radius:12px;
@@ -174,16 +177,16 @@ body {
   letter-spacing:0.3px;
 }
 
-/* SKILLS & CARDS */
+/* ===== SKILLS & CARDS ===== */
 .grid {
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:18px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
 }
 
 .card {
   background:rgba(255,255,255,0.03);
-  padding:18px;
+  padding:20px;
   border-radius:12px;
   box-shadow:var(--card-sh);
   color:var(--text);
@@ -193,7 +196,7 @@ body {
 
 .card h4 {
   margin-top:0;
-  margin-bottom:8px;
+  margin-bottom:12px;
   color:var(--accent);
   font-size:18px;
 }
@@ -202,6 +205,15 @@ body {
   font-size:15px;
   line-height:1.6;
   color:var(--muted);
+}
+
+.card ul {
+  padding-left:18px;
+  margin:0;
+}
+
+.card li {
+  margin-bottom:6px;
 }
 
 /* ===== Programming & Development ===== */
@@ -221,7 +233,7 @@ body {
   background:rgba(0,216,255,0.05);
 }
 
-/* TIMELINE (EXPERIENCE) */
+/* ===== TIMELINE (EXPERIENCE) ===== */
 .timeline {
   display:flex;
   flex-direction:column;
@@ -230,8 +242,8 @@ body {
 
 .entry {
   background:rgba(255,255,255,0.03);
-  padding:14px;
-  border-radius:10px;
+  padding:16px;
+  border-radius:12px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -339,22 +351,5 @@ body {
   .entry .muted {font-size:13px}
   #contact {padding:40px 0;}
   #contact h2 {font-size:22px;margin-bottom:20px;}
-  #contact li {font-size:14px;}
-}
-
-/* ===== MODAL SPECIFIC STYLES ===== */
-.modal-open {
-  background:rgba(5,7,26,0.95);
-  color:var(--text);
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 12px 28px rgba(2,6,23,0.55);
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  max-height:90vh;
-  overflow-y:auto;
-  width:90%;
-  z-index:999;
-}
+  #contact li {font-size:
+```

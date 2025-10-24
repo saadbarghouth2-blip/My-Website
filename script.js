@@ -117,29 +117,29 @@ document.addEventListener("DOMContentLoaded", () => {
   if (hash && !['#all','#home','#default'].includes(hash)) {
     const target = document.querySelector(hash);
     if (target) {
-      // hide all other sections
       sections.forEach(sec => { if(sec !== target) fadeOut(sec); });
       fadeIn(target);
     }
   }
 
   // =============================
-  // Animate cards on scroll
+  // Animate cards on scroll (Intersection Observer)
   // =============================
-  const observerOptions = { threshold: 0.1 };
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('show');
-        obs.unobserve(entry.target); // animate once
-      }
-    });
-  }, observerOptions);
-
-  animatedCards.forEach(card => observer.observe(card));
+  if(animatedCards.length){
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('show');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    animatedCards.forEach(card => observer.observe(card));
+  }
 
   // =============================
-  // Smooth scroll for any anchor links
+  // Smooth scroll for anchor links
   // =============================
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e){
@@ -151,5 +151,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-
 });

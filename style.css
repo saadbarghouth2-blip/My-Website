@@ -181,6 +181,8 @@ body {
   border-radius:12px;
   box-shadow:var(--card-sh);
   color:var(--text);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  cursor: pointer;
 }
 
 .card h4 {
@@ -194,6 +196,35 @@ body {
   font-size:15px;
   line-height:1.6;
   color:var(--muted);
+}
+
+/* ===== Programming Cards Specific Effects ===== */
+#programming .card {
+  opacity:0;
+  transform:translateY(20px);
+}
+
+#programming .card.show {
+  opacity:1;
+  transform:translateY(0);
+}
+
+#programming .card:hover,
+#programming .card:active,
+#programming .card:focus {
+  transform:translateY(-6px);
+  box-shadow:0 16px 32px rgba(0, 216, 255, 0.25);
+  background:rgba(0,216,255,0.05);
+}
+
+@media (hover: none) {
+  #programming .card {
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+  }
+  #programming .card:active {
+    transform:translateY(-6px);
+    box-shadow:0 16px 32px rgba(0, 216, 255,0.25);
+  }
 }
 
 /* TIMELINE (EXPERIENCE) */

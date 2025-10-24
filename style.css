@@ -1,19 +1,19 @@
 :root {
   --bg:#05071a;
-  --muted:#e6eef8; /* النص العادي أبيض */
-  --text:#e6eef8;
-  --accent:#00d8ff; /* العناوين */
+  --muted:#ffffff;
+  --text:#ffffff;
+  --accent:#00d8ff;
   --max:1200px;
   --card-sh:0 12px 28px rgba(2,6,23,0.55);
 }
 
-/* ===== GENERAL ===== */
 body {
   margin:0;
   font-family:Inter,Arial;
   background:var(--bg);
-  color:var(--muted);
+  color:var(--text);
   line-height:1.6;
+  font-size:16px;
 }
 
 .wrap {
@@ -48,7 +48,7 @@ body {
 .brand {
   color:var(--accent);
   font-weight:700;
-  font-size:22px;
+  font-size:20px;
   cursor:pointer;
 }
 
@@ -58,7 +58,7 @@ body {
 }
 
 .menu a {
-  color:var(--muted);
+  color:#ffffffc0;
   text-decoration:none;
   font-weight:600;
   transition:color 0.3s;
@@ -72,7 +72,7 @@ body {
   display:none;
   font-size:28px;
   cursor:pointer;
-  color:var(--text);
+  color:#fff;
 }
 
 /* ===== HERO ===== */
@@ -119,15 +119,18 @@ body {
 }
 
 .hero-name {
-  font-size:34px;
+  font-size:40px;
   margin:0;
-  color:var(--accent);
 }
 
 .hero-title {
   margin:6px 0 0;
-  font-size:16px;
   color:var(--muted);
+  font-size:20px;
+}
+
+.accent {
+  color:var(--accent);
 }
 
 @keyframes fadeUp {
@@ -144,14 +147,44 @@ body {
   text-align:center;
   color:var(--accent);
   margin-bottom:24px;
-  font-size:28px;
+  font-size:32px;
   font-weight:700;
 }
 
-/* ===== CARDS ===== */
+/* ABOUT CARD */
+#about .card {
+  background:rgba(255,255,255,0.04);
+  border-radius:12px;
+  padding:25px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.4);
+  max-width:800px;
+  margin:0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#about .card:hover {
+  transform:translateY(-6px);
+  box-shadow:0 16px 32px rgba(0,216,255,0.25);
+}
+
+#about .muted {
+  line-height:1.8;
+  font-size:16px;
+  text-align:justify;
+  word-spacing:1px;
+  letter-spacing:0.3px;
+}
+
+/* SKILLS & CARDS */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+}
+
 .card {
   background:rgba(255,255,255,0.03);
-  padding:20px;
+  padding:18px;
   border-radius:12px;
   box-shadow:var(--card-sh);
   color:var(--text);
@@ -161,15 +194,15 @@ body {
 
 .card h4 {
   margin-top:0;
-  margin-bottom:12px;
-  font-size:20px;
+  margin-bottom:8px;
   color:var(--accent);
+  font-size:20px;
 }
 
 .card p, .card li {
-  font-size:15px;
+  font-size:16px;
   line-height:1.6;
-  color:var(--muted);
+  color:var(--text);
 }
 
 /* ===== Programming & Development ===== */
@@ -183,14 +216,13 @@ body {
   transform:translateY(0);
 }
 
-/* Hover effect */
-.card:hover {
+#programming .card:hover {
   transform:translateY(-6px);
   box-shadow:0 16px 32px rgba(0, 216, 255, 0.25);
   background:rgba(0,216,255,0.05);
 }
 
-/* ===== TIMELINE (EXPERIENCE) ===== */
+/* TIMELINE (EXPERIENCE) */
 .timeline {
   display:flex;
   flex-direction:column;
@@ -199,8 +231,8 @@ body {
 
 .entry {
   background:rgba(255,255,255,0.03);
-  padding:16px;
-  border-radius:12px;
+  padding:14px;
+  border-radius:10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -210,20 +242,19 @@ body {
 }
 
 .entry .when {
-  font-size:15px;
+  font-size:16px;
   color:var(--accent);
   margin-bottom:6px;
 }
 
 .entry .what {
-  font-size:15px;
+  font-size:16px;
   line-height:1.6;
-  color:var(--muted);
 }
 
 .entry .muted {
-  font-size:14px;
-  color:var(--muted);
+  font-size:15px;
+  color:var(--text);
 }
 
 /* ===== CONTACT ===== */
@@ -256,7 +287,7 @@ body {
 #contact li {
   margin:10px 0;
   font-size:16px;
-  color:var(--muted);
+  color:var(--text);
 }
 
 #contact a {
@@ -279,6 +310,7 @@ body {
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:768px){
+  body { font-size:14px; }
   .section {padding:40px 0;}
   .section-title {font-size:24px;margin-bottom:20px;}
   .menu {
@@ -298,8 +330,33 @@ body {
   .menu-toggle {display:block}
   .hero {height:250px;}
   .hero-card {background:transparent; text-shadow:1px 1px 4px rgba(0,0,0,0.7); padding:6px 10px;}
-  .hero-name {font-size:24px}
-  .hero-title {font-size:12px}
+  .hero-name {font-size:28px}
+  .hero-title {font-size:14px}
+  #about .card {padding:18px;margin:0 10px}
+  #about .muted { font-size:14px; line-height:1.8; text-align:left; }
   .grid {grid-template-columns:1fr;}
   .card {font-size:14px;padding:15px}
+  .timeline .entry {padding:12px}
+  .entry .what {font-size:14px}
+  .entry .muted {font-size:13px}
+  #contact {padding:40px 0;}
+  #contact h2 {font-size:22px;margin-bottom:20px;}
+  #contact li {font-size:14px;}
+}
+
+/* ===== MODAL ===== */
+.modal-open {
+  background:rgba(5,7,26,0.95);
+  color:var(--text);
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 12px 28px rgba(2,6,23,0.55);
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  max-height:90vh;
+  overflow-y:auto;
+  width:90%;
+  z-index:999;
 }
